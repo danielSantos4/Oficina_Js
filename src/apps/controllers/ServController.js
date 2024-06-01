@@ -8,16 +8,19 @@ class ServController {
         const verifyVeic = await Veic.serv_getOne( req, res );
         const verifyFunc = await Func.serv_getOne( req, res );
         if(verifyFunc && verifyVeic) {
-            const dateServIn = new Date(req.body.date_in);
-            const dateServOut = new Date(req.body.date_out);
+            const dateServIn = new Date(req.body.data_in);
+            let dateServOut = new Date(req.body.data_out);
             const today = new Date();
-            if(dateServIn <= today && dateServOut <= today && dateServIn <= dateServOut) {
+
+            if(req.body.data_out == "null") { dateServOut = today; req.body.data_out = null;}
+            if(dateServIn <= today && dateServIn <= dateServOut) {
+                req.body.id_serv = null;
                 const serv = await Serv.create(req.body);
-                if (!serv) { res.send({message: "Created with success ... "});}
-                res.status(400).json({message: "Service not created ... "});
+                if (serv) { return res.send({message: "Created with success ... "});}
+                return res.status(400).json({message: "Service not created ... "});
             }
         }
-        res.send({message: "Not possible to create for this vehicle or employee ... "});
+        return res.send({message: "Not possible to create for this vehicle or employee ... "});
     }
 
     async update( req, res ) {

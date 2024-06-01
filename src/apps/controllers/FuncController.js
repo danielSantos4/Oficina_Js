@@ -77,7 +77,7 @@ class FuncController {
     async serv_getOne( req, res ){
         console.log("Getting employee for service ... ");
         const func = await Func.findOne({
-            where: { cpf_cnpj: req.body.cpf_cnpj, }
+            where: { cpf_cnpj: req.body.func, }
         })
         if(!func) { res.send({message: "Employee not finded with this cpf_cpnj .. ."});}
         return func;

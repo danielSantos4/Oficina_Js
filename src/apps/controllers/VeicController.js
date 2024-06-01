@@ -3,7 +3,7 @@ const Veic = require("../models/veic");
 class VeicController {
     async create( req, res ) {
         console.log("Crete veic ... ")
-        const veicVerify = await Veic.getOne({
+        const veicVerify = await Veic.findOne({
             where: {
                 placa_frota: req.body.placa_frota,
             },
@@ -78,7 +78,7 @@ class VeicController {
     async serv_getOne( req, res ) {
         console.log("Getting Vehicle for service creation ... ");
         const veic = await Veic.findOne({
-            where: {cpf_cnpj: req.body.cpf_cnpj, }
+            where: {placa_frota: req.body.veic, }
         });
         if(!veic) { return res.send({message: "Vehicle not find with this name ..."});}
         return veic;
